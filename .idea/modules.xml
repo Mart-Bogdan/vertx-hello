@@ -2,7 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/vertx-hello.iml" filepath="$PROJECT_DIR$/vertx-hello.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/vertx-hello.iml" filepath="$PROJECT_DIR$/.idea/modules/vertx-hello.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/vertx-hello_main.iml" filepath="$PROJECT_DIR$/.idea/modules/vertx-hello_main.iml" group="vertx-hello" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/vertx-hello_test.iml" filepath="$PROJECT_DIR$/.idea/modules/vertx-hello_test.iml" group="vertx-hello" />
     </modules>
   </component>
 </project>

@@ -14,10 +14,7 @@ import io.vertx.ext.web.templ.TemplateEngine;
 public class Server extends AbstractVerticle
 {
     public void start() {
-
         HttpServer server = getVertx().createHttpServer();
-
-
 
         TemplateEngine engine = JadeTemplateEngine.create();
         TemplateHandler handler = TemplateHandler.create(engine);
@@ -31,8 +28,21 @@ public class Server extends AbstractVerticle
         router.route().handler(routingContext -> {
 
             String file = routingContext.request().path();
-            routingContext.response().sendFile("src/main/webapp/" + file);
+            String filename = "src/main/webapp/" + file;
 
+            getVertx().fileSystem().exists(
+                    filename,
+                    exists -> {
+                        HttpServerResponse response = routingContext.response();
+
+                        if(exists.succeeded()&&exists.result())
+                            response.sendFile(filename);
+                        else {
+                            response.setStatusCode(404);
+                            response.end("404. File not found!");
+                        }
+                    }
+            );
         });
 
         server.requestHandler(router::accept).listen(8080);

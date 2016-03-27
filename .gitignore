@@ -59,3 +59,6 @@ crashlytics.properties
 crashlytics-build.properties
 fabric.properties
 .vertx/
+/.idea/modules
+.idea/modules.xml
+.idea/compiler.xml

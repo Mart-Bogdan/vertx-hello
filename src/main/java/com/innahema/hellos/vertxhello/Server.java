@@ -4,6 +4,7 @@ import io.vertx.core.AbstractVerticle;
 import io.vertx.core.http.HttpHeaders;
 import io.vertx.core.http.HttpServer;
 import io.vertx.core.http.HttpServerResponse;
+import io.vertx.ext.web.Route;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.ext.web.handler.TemplateHandler;
@@ -25,28 +26,8 @@ public class Server extends AbstractVerticle
 
         Router router = Router.router(vertx);
 
-        router.get("/hello/:name").handler(ctx->{
-
-            ctx.put("name", ctx.request().getParam("name"));
-            renderTemplate(ctx, jadeEngine, "templates/jade/hello.jade");
-        });
-        router.get("/hello").handler(ctx->{
-
-            ctx.put("name", "Default name");
-            renderTemplate(ctx, jadeEngine, "templates/jade/hello.jade");
-        });
-        router.get("/helloL").handler(ctx->{
-
-            ctx.put("name", "Default name");
-            renderTemplate(ctx, jadeEngine, "templates/jade/helloL.jade");
-        });
-
-
-        router.get("/t/hello").handler(ctx->{
-
-            ctx.put("name", "Default name");
-            renderTemplate(ctx, thymeleafEngine, "templates/thymeleaf/hello.html");
-        });
+        router.mountSubRouter("/jade", buildTemplateRouter(jadeEngine,"jade","jade"));
+        router.mountSubRouter("/t", buildTemplateRouter(thymeleafEngine,"html","thymeleaf"));
 
         router.get("/").handler(routingContext -> {
             routingContext.reroute("/index.html");
@@ -75,6 +56,28 @@ public class Server extends AbstractVerticle
             });
 
         server.requestHandler(router::accept).listen(8080);
+    }
+
+    private Router buildTemplateRouter(TemplateEngine engine, String ext, String templFolder) {
+        Router router = Router.router(getVertx());
+
+        router.get("/hello/:name").handler(ctx->{
+
+            ctx.put("name", ctx.request().getParam("name"));
+            renderTemplate(ctx, engine,  "templates/"+templFolder+"/hello."+ext);
+        });
+        router.get("/hello").handler(ctx->{
+
+            ctx.put("name", "Default name");
+            renderTemplate(ctx, engine, "templates/"+templFolder+"/hello."+ext);
+        });
+        router.get("/helloL").handler(ctx->{
+
+            ctx.put("name", "Default name");
+            renderTemplate(ctx, engine, "templates/"+templFolder+"/helloL."+ext);
+        });
+
+        return router;
     }
 
     private void renderTemplate(RoutingContext ctx, TemplateEngine engine, String templateFileName)

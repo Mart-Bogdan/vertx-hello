@@ -1,5 +1,6 @@
 package com.innahema.hellos.vertxhello;
 
+import com.innahema.hellos.vertxhello.tempengine.ThymeleafTemplateEngineWithLayout;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.http.HttpHeaders;
 import io.vertx.core.http.HttpServer;
@@ -17,12 +18,12 @@ import io.vertx.ext.web.templ.ThymeleafTemplateEngine;
  */
 public class Server extends AbstractVerticle
 {
-    TemplateEngine jadeEngine = JadeTemplateEngine.create();
-    TemplateEngine thymeleafEngine = ThymeleafTemplateEngine.create();
+    private TemplateEngine jadeEngine = JadeTemplateEngine.create();
+    private TemplateEngine thymeleafEngine= new ThymeleafTemplateEngineWithLayout("templates/thymeleaf/layout.html");
+
+
     public void start() {
         HttpServer server = getVertx().createHttpServer();
-
-
 
         Router router = Router.router(vertx);
 

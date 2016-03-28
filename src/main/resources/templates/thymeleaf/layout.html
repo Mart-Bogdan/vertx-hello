@@ -1,3 +1,4 @@
+<!--Created by Bogdan Mart on 27.03.2016.-->
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <!--/*@thymesVar id="context" type="io.vertx.ext.web.RoutingContext"*/-->
@@ -5,7 +6,9 @@
     <title>Hello vetx.io</title>
 </head>
 <body>
-<h1>Hello from thymeleaf</h1>
-<p  th:text="${context.get('name')}"></p>
+<h1>Header text</h1>
+    <div th:replace="${context.get('com.innahema.hellos.vertxhello.tempengine.VIEW')} :: content">
+        Content
+    </div>
 </body>
 </html>

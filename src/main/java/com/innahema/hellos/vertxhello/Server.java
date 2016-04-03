@@ -2,16 +2,15 @@ package com.innahema.hellos.vertxhello;
 
 import com.innahema.hellos.vertxhello.tempengine.ThymeleafTemplateEngineWithLayout;
 import io.vertx.core.AbstractVerticle;
+import io.vertx.core.Future;
 import io.vertx.core.http.HttpHeaders;
 import io.vertx.core.http.HttpServer;
 import io.vertx.core.http.HttpServerResponse;
-import io.vertx.ext.web.Route;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.ext.web.handler.TemplateHandler;
 import io.vertx.ext.web.templ.JadeTemplateEngine;
 import io.vertx.ext.web.templ.TemplateEngine;
-import io.vertx.ext.web.templ.ThymeleafTemplateEngine;
 
 /**
  * Created by Bogdan Mart on 07.03.2016.
@@ -20,10 +19,13 @@ public class Server extends AbstractVerticle
 {
     private TemplateEngine jadeEngine = JadeTemplateEngine.create();
     private TemplateEngine thymeleafEngine= new ThymeleafTemplateEngineWithLayout("templates/thymeleaf/layout.html");
+    private HttpServer httpServer;
 
 
-    public void start() {
-        HttpServer server = getVertx().createHttpServer();
+    public void start(Future<Void> fut) {
+        System.out.println("Starting "+getClass().getName());
+
+        httpServer = getVertx().createHttpServer();
 
         Router router = Router.router(vertx);
 
@@ -56,7 +58,29 @@ public class Server extends AbstractVerticle
                 response.end("404. File not found!");
             });
 
-        server.requestHandler(router::accept).listen(8080);
+        httpServer
+            .requestHandler(router::accept)
+            .listen(
+                config().getInteger("http.port"),
+                res->{
+                    if(res.succeeded()){
+                        System.out.println("Listening on port "+config().getInteger("http.port"));
+                        fut.complete();
+                    }else{
+                        System.out.println("Failed to start");
+                        Throwable cause = res.cause();
+
+                        cause.printStackTrace();
+                        fut.fail(cause);
+                    }
+                }
+            );
+    }
+
+    @Override
+    public void stop(Future<Void> stopFuture) throws Exception {
+        System.out.println("Stopping "+getClass().getName());
+        httpServer.close(stopFuture.completer());
     }
 
     private Router buildTemplateRouter(TemplateEngine engine, String ext, String templFolder) {

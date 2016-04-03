@@ -24,7 +24,7 @@ version '1.0-SNAPSHOT'
 
 sourceCompatibility = 1.8
 mainClassName = "com.innahema.hellos.vertxhello.Main"
-
+applicationDefaultJvmArgs = ["-server", "-Dfile.encoding=UTF-8"]
 
 repositories {
     mavenCentral()

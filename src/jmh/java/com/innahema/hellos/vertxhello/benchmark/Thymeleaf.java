@@ -74,13 +74,13 @@ public class Thymeleaf extends BaseConfig
         });
         //latch.await();
     }
-//    @Benchmark
-//    public void with_layout(Blackhole hole) throws InterruptedException {
-//
-//        engine.render(routingContext, "templates/jade/helloL.jade", res->{
-//            if(res.failed())
-//                throw new RuntimeException(res.cause());
-//            hole.consume(res.result());
-//        });
-//    }
+    @Benchmark
+    public void with_layout(Blackhole hole) throws InterruptedException {
+
+        engine.render(routingContext, "templates/jade/helloL.jade", res->{
+            if(res.failed())
+                throw new RuntimeException(res.cause());
+            hole.consume(res.result());
+        });
+    }
 }

@@ -1,9 +1,23 @@
+//buildscript {
+//    repositories {
+//        jcenter()
+//    }
+//
+//    dependencies {
+//        classpath 'eu.appsatori:gradle-fatjar-plugin:0.3'
+//    }
+//}
 
 plugins {
     id 'java'
     id 'application'
+//    id 'eu.appsatori.gradle-fatjar-plugin' version '0.3'
     id 'me.champeau.gradle.jmh' version '0.3.0'
 }
+
+//apply plugin: 'eu.appsatori.fatjar'
+
+
 group 'com.innahema'
 version '1.0-SNAPSHOT'
 
@@ -39,3 +53,8 @@ task cleanJmhGeneratedSources(type: Delete) {
 }
 
 project.tasks['jmhRunBytecodeGenerator'].dependsOn('cleanJmhGeneratedSources')
+
+distTar.enabled = false
+distZip.enabled = false
+
+task("stage").dependsOn('installDist')

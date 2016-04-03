@@ -1,0 +1,1 @@
+web: ./build/install/vertx-hello/bin/vertx-hello

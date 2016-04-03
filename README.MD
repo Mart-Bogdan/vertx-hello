@@ -19,3 +19,7 @@ I'll expand this project as long as I'll learn **Vertx.io**
 
 [http://localhost:8080/t/hello](http://localhost:8080/t/hello)
 
+
+## Heroku
+can be tested on heroku
+https://vartx-hello.herokuapp.com/ 

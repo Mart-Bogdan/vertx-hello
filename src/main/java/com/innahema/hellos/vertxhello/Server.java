@@ -2,7 +2,9 @@ package com.innahema.hellos.vertxhello;
 
 import com.innahema.hellos.vertxhello.tempengine.ThymeleafTemplateEngineWithLayout;
 import io.vertx.core.AbstractVerticle;
+import io.vertx.core.Context;
 import io.vertx.core.Future;
+import io.vertx.core.Vertx;
 import io.vertx.core.http.HttpHeaders;
 import io.vertx.core.http.HttpServer;
 import io.vertx.core.http.HttpServerResponse;
@@ -39,8 +41,8 @@ public class Server extends AbstractVerticle
 
                 String file = routingContext.request().path();
                 String filename = "src/main/webapp/" + file;
-
-                getVertx().fileSystem().exists(
+            Context context = Vertx.currentContext();
+            getVertx().fileSystem().exists(
                         filename,
                         exists -> {
                             if(exists.succeeded()&&exists.result())
@@ -95,6 +97,17 @@ public class Server extends AbstractVerticle
 
             ctx.put("name", "Default name");
             renderTemplate(ctx, engine, "templates/"+templFolder+"/hello."+ext);
+        });
+        router.get("/mem").handler(ctx->{
+
+            final double mb = 1024*1024;
+            Runtime runtime = Runtime.getRuntime();
+            long usedRam = runtime.totalMemory() - runtime.freeMemory();
+
+            ctx.put("usedMemory", usedRam/mb);
+            ctx.put("totalMemory", runtime.totalMemory()/mb);
+            ctx.put("freeMemory",  runtime.freeMemory()/mb);
+            renderTemplate(ctx, engine, "templates/"+templFolder+"/mem."+ext);
         });
         router.get("/helloL").handler(ctx->{
 

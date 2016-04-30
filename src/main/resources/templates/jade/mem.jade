@@ -1,0 +1,19 @@
+// Created by Bogdan Mart on 27.03.2016.
+
+extends layout
+block content
+    h2 Memory statistics
+    table
+        thead
+            tr
+                th Type
+                th Value
+        tbody
+            each key in ["usedMemory","totalMemory","freeMemory"]
+                tr
+                    td=key
+                    td=context.get(key)
+
+//ctx.put("usedMemory", usedRam/mb);
+//ctx.put("totalMemory", runtime.totalMemory()/mb);
+//ctx.put("freeMemory",  runtime.freeMemory()/mb);

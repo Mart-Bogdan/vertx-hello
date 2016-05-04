@@ -11,10 +11,7 @@ import io.vertx.ext.web.impl.RouterImpl;
 import io.vertx.ext.web.impl.RoutingContextImpl;
 import io.vertx.ext.web.templ.JadeTemplateEngine;
 import io.vertx.ext.web.templ.TemplateEngine;
-import org.openjdk.jmh.annotations.Benchmark;
-import org.openjdk.jmh.annotations.Scope;
-import org.openjdk.jmh.annotations.Setup;
-import org.openjdk.jmh.annotations.State;
+import org.openjdk.jmh.annotations.*;
 import org.openjdk.jmh.infra.Blackhole;
 
 import java.lang.reflect.Constructor;
@@ -26,6 +23,7 @@ import java.util.Set;
 //@Fork(jvmArgsPrepend = "-agentlib:jdwp=transport=dt_socket,server=n,address=winnie-pc:5005,suspend=n")
 //@BenchmarkMode(Mode.All)
 @State(Scope.Thread)
+@Fork(jvmArgsAppend = "-XX:+UseCompressedOops")
 public class Jade extends BaseConfig
 {
 
@@ -84,3 +82,5 @@ public class Jade extends BaseConfig
         });
     }
 }
+
+

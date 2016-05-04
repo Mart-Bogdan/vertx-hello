@@ -11,10 +11,7 @@ import io.vertx.ext.web.impl.RouterImpl;
 import io.vertx.ext.web.impl.RoutingContextImpl;
 import io.vertx.ext.web.templ.TemplateEngine;
 import io.vertx.ext.web.templ.ThymeleafTemplateEngine;
-import org.openjdk.jmh.annotations.Benchmark;
-import org.openjdk.jmh.annotations.Scope;
-import org.openjdk.jmh.annotations.Setup;
-import org.openjdk.jmh.annotations.State;
+import org.openjdk.jmh.annotations.*;
 import org.openjdk.jmh.infra.Blackhole;
 
 import java.lang.reflect.Constructor;
@@ -25,6 +22,7 @@ import java.util.Set;
 //@Fork(1)
 //@Fork(jvmArgsPrepend = "-agentlib:jdwp=transport=dt_socket,server=n,address=winnie-pc:5005,suspend=n")
 //@BenchmarkMode(Mode.All)
+@Fork(jvmArgsAppend = "-XX:+UseCompressedOops")
 @State(Scope.Thread)
 public class Thymeleaf extends BaseConfig
 {

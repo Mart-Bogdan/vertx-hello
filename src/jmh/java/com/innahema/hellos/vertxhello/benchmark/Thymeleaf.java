@@ -77,7 +77,7 @@ public class Thymeleaf extends BaseConfig
     @Benchmark
     public void with_layout(Blackhole hole) throws InterruptedException {
 
-        engine.render(routingContext, "templates/jade/helloL.jade", res->{
+        engine.render(routingContext, "templates/thymeleaf/helloL.html", res->{
             if(res.failed())
                 throw new RuntimeException(res.cause());
             hole.consume(res.result());

@@ -47,10 +47,10 @@ dependencies {
 }
 
 task cleanJmhGeneratedSources(type: Delete) {
-
     delete "$buildDir/jmh-generated-sources"
-
 }
+
+applicationDefaultJvmArgs =  ['-server','-XX:-UseCompressedOops']
 
 project.tasks['jmhRunBytecodeGenerator'].dependsOn('cleanJmhGeneratedSources')
 

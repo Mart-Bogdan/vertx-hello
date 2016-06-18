@@ -1,9 +1,0 @@
-Benchmark                                   Mode  Cnt       Score       Error  Units
-Jade.simple_template                       thrpt   25  356691.343 ±  2944.519  ops/s
-Jade.with_layout                           thrpt   25  361213.392 ±  4055.455  ops/s
-JadeNoCompressedOops.simple_template       thrpt   25  318515.394 ± 34091.816  ops/s
-JadeNoCompressedOops.with_layout           thrpt   25  333746.770 ±  4027.133  ops/s
-Thymeleaf.simple_template                  thrpt   25   66480.184 ±  1188.853  ops/s
-Thymeleaf.with_layout                      thrpt   25   86669.079 ±  1748.425  ops/s
-ThymeleafNoCompressedOops.simple_template  thrpt   25   59239.638 ±   593.229  ops/s
-ThymeleafNoCompressedOops.with_layout      thrpt   25   82978.264 ±  1315.709  ops/s

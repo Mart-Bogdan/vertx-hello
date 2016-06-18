@@ -11,19 +11,16 @@ import java.lang.reflect.InvocationTargetException;
 @Fork(jvmArgsAppend = "-XX:+UseCompressedOops")
 @State(Scope.Thread)
 public class Thymeleaf extends BaseConfig implements HelloTest {
-    @Setup
     @Override
     public void setUp() throws ClassNotFoundException, IllegalAccessException, InvocationTargetException, InstantiationException {
         setUp(ThymeleafTemplateEngine.create());
     }
 
-    @Benchmark
     @Override
     public void simple_template(Blackhole hole) throws InterruptedException {
         test(hole, "templates/thymeleaf/hello.html");
     }
 
-    @Benchmark
     @Override
     public void with_layout(Blackhole hole) throws InterruptedException {
         test(hole, "templates/thymeleaf/helloL.html");

@@ -1,4 +1,5 @@
-package com.innahema.hellos.vertxhello.benchmark;
+package com.innahema.hellos.vertxhello.benchmark.hellotest;
+
 
 import io.netty.handler.codec.http.DefaultHttpRequest;
 import io.netty.handler.codec.http.HttpMethod;
@@ -9,9 +10,10 @@ import io.vertx.ext.web.RoutingContext;
 import io.vertx.ext.web.impl.RouteImpl;
 import io.vertx.ext.web.impl.RouterImpl;
 import io.vertx.ext.web.impl.RoutingContextImpl;
-import io.vertx.ext.web.templ.JadeTemplateEngine;
 import io.vertx.ext.web.templ.TemplateEngine;
-import org.openjdk.jmh.annotations.*;
+import org.openjdk.jmh.annotations.Fork;
+import org.openjdk.jmh.annotations.Measurement;
+import org.openjdk.jmh.annotations.Warmup;
 import org.openjdk.jmh.infra.Blackhole;
 
 import java.lang.reflect.Constructor;
@@ -19,30 +21,25 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.HashSet;
 import java.util.Set;
 
-//@Fork(1)
-//@Fork(jvmArgsPrepend = "-agentlib:jdwp=transport=dt_socket,server=n,address=winnie-pc:5005,suspend=n")
-//@BenchmarkMode(Mode.All)
-@State(Scope.Thread)
-@Fork(jvmArgsAppend = "-XX:+UseCompressedOops")
-public class Jade extends BaseConfig
-{
+@Fork(value = 1,jvmArgs = "-server",warmups = 0)
+@Warmup(iterations=10)
+@Measurement(iterations = 50)
+public class BaseConfig {
+    protected TemplateEngine engine;
+    protected Vertx vertx;
+    protected RouterImpl router;
+    protected RouteImpl route;
+    protected RoutingContext routingContext;
 
-    TemplateEngine engine;
-    private Vertx vertx;
-    private RouterImpl router;
-    private RouteImpl route;
-    private RoutingContext routingContext;
-
-    @Setup
-    public void setUp() throws ClassNotFoundException, IllegalAccessException, InvocationTargetException, InstantiationException {
-        engine = JadeTemplateEngine.create();
+    protected void setUp(TemplateEngine templateEngine) throws ClassNotFoundException, IllegalAccessException, InvocationTargetException, InstantiationException {
+        engine = templateEngine;
 
         vertx = Vertx.vertx();
 
         router = new RouterImpl(vertx);
         route = (RouteImpl) router.get("/");
         Set<RouteImpl> routes = new HashSet<>();
-        routes.add( route);
+        routes.add(route);
 
         Constructor<?> constructor = Class
                 .forName("io.vertx.core.http.impl.HttpServerRequestImpl")
@@ -60,27 +57,11 @@ public class Jade extends BaseConfig
         routingContext.put("name","Hello");
     }
 
-    @Benchmark
-    public void simple_template(Blackhole hole) throws InterruptedException {
-
-        //CountDownLatch latch = new CountDownLatch(1);
-        engine.render(routingContext, "templates/jade/hello.jade", res->{
-            if(res.failed())
-                throw new RuntimeException(res.cause());
-            hole.consume(res.result());
-            //    latch.countDown();
-        });
-        //latch.await();
-    }
-    @Benchmark
-    public void with_layout(Blackhole hole) throws InterruptedException {
-
-        engine.render(routingContext, "templates/jade/helloL.jade", res->{
+    protected void test(Blackhole hole, String path) throws InterruptedException {
+        engine.render(routingContext, path, res->{
             if(res.failed())
                 throw new RuntimeException(res.cause());
             hole.consume(res.result());
         });
     }
 }
-
-

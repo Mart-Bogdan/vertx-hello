@@ -11,6 +11,7 @@ import io.vertx.core.http.HttpServerResponse;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.ext.web.handler.TemplateHandler;
+import io.vertx.ext.web.templ.HandlebarsTemplateEngine;
 import io.vertx.ext.web.templ.JadeTemplateEngine;
 import io.vertx.ext.web.templ.MVELTemplateEngine;
 import io.vertx.ext.web.templ.TemplateEngine;
@@ -21,6 +22,7 @@ import io.vertx.ext.web.templ.TemplateEngine;
 public class Server extends AbstractVerticle {
     private TemplateEngine jadeEngine = JadeTemplateEngine.create();
     private TemplateEngine mvelEngine = MVELTemplateEngine.create();
+    private TemplateEngine handlebarsEngine = HandlebarsTemplateEngine.create();
     private TemplateEngine thymeleafEngine = new ThymeleafTemplateEngineWithLayout("templates/thymeleaf/layout.html");
     private HttpServer httpServer;
 
@@ -33,7 +35,8 @@ public class Server extends AbstractVerticle {
 
         router.mountSubRouter("/jade", buildTemplateRouter(jadeEngine, "jade", "jade"));
         router.mountSubRouter("/t", buildTemplateRouter(thymeleafEngine, "html", "thymeleaf"));
-        router.mountSubRouter("/mvel", buildTemplateRouter(mvelEngine, "html", "mvel"));
+        router.mountSubRouter("/mvel", buildTemplateRouter(mvelEngine, "templ", "mvel"));
+        router.mountSubRouter("/handlebars", buildTemplateRouter(handlebarsEngine, "hbs", "handlebars"));
 
         router.get("/").handler(routingContext -> {
             routingContext.reroute("/index.html");

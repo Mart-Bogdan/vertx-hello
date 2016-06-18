@@ -1,6 +1,5 @@
 package com.innahema.hellos.vertxhello.benchmark.hellotest;
 
-
 import io.netty.handler.codec.http.DefaultHttpRequest;
 import io.netty.handler.codec.http.HttpMethod;
 import io.netty.handler.codec.http.HttpVersion;
@@ -25,19 +24,15 @@ import java.util.Set;
 @Warmup(iterations = 1)
 @Measurement(iterations = 5)
 public class BaseConfig {
-    protected TemplateEngine engine;
-    protected Vertx vertx;
-    protected RouterImpl router;
-    protected RouteImpl route;
-    protected RoutingContext routingContext;
+    private TemplateEngine engine;
+    private RoutingContext routingContext;
 
     protected void setUp(TemplateEngine templateEngine) throws ClassNotFoundException, IllegalAccessException, InvocationTargetException, InstantiationException {
         engine = templateEngine;
 
-        vertx = Vertx.vertx();
-
-        router = new RouterImpl(vertx);
-        route = (RouteImpl) router.get("/");
+        Vertx vertx = Vertx.vertx();
+        RouterImpl router = new RouterImpl(vertx);
+        RouteImpl route = (RouteImpl) router.get("/");
         Set<RouteImpl> routes = new HashSet<>();
         routes.add(route);
 

@@ -1,4 +1,7 @@
 ## Sample project for Vertx.io
+
+[![Build Status](https://travis-ci.org/Antrakos/Vertx.io-examples.svg?branch=master)](https://travis-ci.org/Antrakos/Vertx.io-examples)
+
 It's using **Vertx.io** 3.2.1
 
 I was looking for sample projects, and there aren't many of them. 

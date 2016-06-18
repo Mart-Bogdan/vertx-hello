@@ -1,6 +1,7 @@
-.gradle
-.idea
+.gradle/
+.idea/
 build/
 .vertx/
-gradle
+gradle/
+gradlew
 jmh-results.txt

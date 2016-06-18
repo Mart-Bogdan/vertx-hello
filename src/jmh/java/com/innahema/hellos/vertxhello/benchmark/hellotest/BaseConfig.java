@@ -21,9 +21,9 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.HashSet;
 import java.util.Set;
 
-@Fork(value = 1,jvmArgs = "-server",warmups = 0)
-@Warmup(iterations=10)
-@Measurement(iterations = 50)
+@Fork(value = 1, jvmArgs = "-server", warmups = 0)
+@Warmup(iterations = 1)
+@Measurement(iterations = 5)
 public class BaseConfig {
     protected TemplateEngine engine;
     protected Vertx vertx;
@@ -49,17 +49,17 @@ public class BaseConfig {
         HttpServerRequest request = (HttpServerRequest) constructor
                 .newInstance(
                         null,
-                        new DefaultHttpRequest(HttpVersion.HTTP_1_0, HttpMethod.GET,"/"),
+                        new DefaultHttpRequest(HttpVersion.HTTP_1_0, HttpMethod.GET, "/"),
                         null
                 );
 
         routingContext = new RoutingContextImpl("/", router, request, routes);
-        routingContext.put("name","Hello");
+        routingContext.put("name", "Hello");
     }
 
     protected void test(Blackhole hole, String path) throws InterruptedException {
-        engine.render(routingContext, path, res->{
-            if(res.failed())
+        engine.render(routingContext, path, res -> {
+            if (res.failed())
                 throw new RuntimeException(res.cause());
             hole.consume(res.result());
         });

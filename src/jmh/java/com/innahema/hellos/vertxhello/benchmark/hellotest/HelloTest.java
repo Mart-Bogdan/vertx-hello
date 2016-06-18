@@ -9,6 +9,8 @@ import java.lang.reflect.InvocationTargetException;
  */
 public interface HelloTest {
     void setUp() throws ClassNotFoundException, IllegalAccessException, InvocationTargetException, InstantiationException;
+
     void simple_template(Blackhole hole) throws InterruptedException;
+
     void with_layout(Blackhole hole) throws InterruptedException;
 }

@@ -2,7 +2,9 @@ package com.innahema.hellos.vertxhello;
 
 import com.innahema.hellos.vertxhello.tempengine.ThymeleafTemplateEngineWithLayout;
 import io.vertx.core.AbstractVerticle;
+import io.vertx.core.Context;
 import io.vertx.core.Future;
+import io.vertx.core.Vertx;
 import io.vertx.core.http.HttpHeaders;
 import io.vertx.core.http.HttpServer;
 import io.vertx.core.http.HttpServerResponse;
@@ -10,6 +12,7 @@ import io.vertx.ext.web.Router;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.ext.web.handler.TemplateHandler;
 import io.vertx.ext.web.templ.JadeTemplateEngine;
+import io.vertx.ext.web.templ.MVELTemplateEngine;
 import io.vertx.ext.web.templ.TemplateEngine;
 
 /**
@@ -17,6 +20,7 @@ import io.vertx.ext.web.templ.TemplateEngine;
  */
 public class Server extends AbstractVerticle {
     private TemplateEngine jadeEngine = JadeTemplateEngine.create();
+    private TemplateEngine mvelEngine = MVELTemplateEngine.create();
     private TemplateEngine thymeleafEngine = new ThymeleafTemplateEngineWithLayout("templates/thymeleaf/layout.html");
     private HttpServer httpServer;
 
@@ -25,11 +29,11 @@ public class Server extends AbstractVerticle {
         System.out.println("Starting " + getClass().getName());
 
         httpServer = getVertx().createHttpServer();
-
         Router router = Router.router(vertx);
 
         router.mountSubRouter("/jade", buildTemplateRouter(jadeEngine, "jade", "jade"));
         router.mountSubRouter("/t", buildTemplateRouter(thymeleafEngine, "html", "thymeleaf"));
+        router.mountSubRouter("/mvel", buildTemplateRouter(mvelEngine, "html", "mvel"));
 
         router.get("/").handler(routingContext -> {
             routingContext.reroute("/index.html");
@@ -38,6 +42,7 @@ public class Server extends AbstractVerticle {
 
             String file = routingContext.request().path();
             String filename = "src/main/webapp/" + file;
+            Context context = Vertx.currentContext();
             getVertx().fileSystem().exists(
                     filename,
                     exists -> {

@@ -49,6 +49,9 @@
     <cabalPath>C:\Program Files\Haskell\bin\cabal.exe</cabalPath>
   </component>
   <component name="IdProvider" IDEtalkID="8DACD573D4D3102CDC9AEEA879B18D27" />
+  <component name="PDMPlugin">
+    <option name="skipTestSources" value="false" />
+  </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
     <entry key="Project Default">
       <profile-state>

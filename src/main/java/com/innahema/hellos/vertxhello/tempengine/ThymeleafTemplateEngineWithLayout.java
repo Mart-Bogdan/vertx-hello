@@ -2,7 +2,6 @@ package com.innahema.hellos.vertxhello.tempengine;
 
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Handler;
-import io.vertx.core.Vertx;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.ext.web.templ.TemplateEngine;
@@ -20,7 +19,7 @@ public class ThymeleafTemplateEngineWithLayout implements TemplateEngine {
 
     private TemplateEngine baseEngine = ThymeleafTemplateEngine.create();
     private String layoutTemplateFileName;
-    private Map<String,Boolean> useLayoutCache = new HashMap<>();
+    private Map<String, Boolean> useLayoutCache = new HashMap<>();
 
     public ThymeleafTemplateEngineWithLayout(String layoutTemplateFileName) {
 
@@ -30,32 +29,31 @@ public class ThymeleafTemplateEngineWithLayout implements TemplateEngine {
     public void render(RoutingContext context, String templateFileName, Handler<AsyncResult<Buffer>> handler) {
         final Boolean[] useLayout = {useLayoutCache.get(templateFileName)};
 
-        Runnable doRenderFile = ()->{
+        Runnable doRenderFile = () -> {
 
-            if(useLayout[0]){
+            if (useLayout[0]) {
                 context.put("com.innahema.hellos.vertxhello.tempengine.VIEW", templateFileName);
             }
 
             baseEngine.render(
                     context,
-                    useLayout[0] ? layoutTemplateFileName:templateFileName,
+                    useLayout[0] ? layoutTemplateFileName : templateFileName,
                     handler
             );
         };
 
-        if(useLayout[0] ==null){
-            context.vertx().fileSystem().readFile(templateFileName,res->{
-               if(res.failed())
-                   handler.handle(res);
+        if (useLayout[0] == null) {
+            context.vertx().fileSystem().readFile(templateFileName, res -> {
+                if (res.failed())
+                    handler.handle(res);
 
                 String content = res.result().toString(UTF_8);
                 useLayout[0] = content.contains("th:fragment=\"");
-                useLayoutCache.put(templateFileName,useLayout[0]);
+                useLayoutCache.put(templateFileName, useLayout[0]);
 
                 doRenderFile.run();
             });
-        }
-        else {
+        } else {
             doRenderFile.run();
         }
     }

@@ -1,0 +1,17 @@
+Benchmark                                    Mode  Cnt        Score        Error  Units
+Handlebars.simple_template                  thrpt    5   897931,666 ± 184660,410  ops/s
+Handlebars.with_layout                      thrpt    5    16048,084 ±  14808,848  ops/s
+HandlebarsNoCompressedOops.simple_template  thrpt    5   929292,420 ± 495473,870  ops/s
+HandlebarsNoCompressedOops.with_layout      thrpt    5    14247,306 ±  14726,615  ops/s
+Jade.simple_template                        thrpt    5    94947,392 ± 241425,730  ops/s
+Jade.with_layout                            thrpt    5   302520,975 ± 191676,799  ops/s
+JadeNoCompressedOops.simple_template        thrpt    5    77369,768 ±  75264,584  ops/s
+JadeNoCompressedOops.with_layout            thrpt    5   275632,340 ± 142118,784  ops/s
+Mvel.simple_template                        thrpt    5  1736973,467 ± 285245,993  ops/s
+Mvel.with_layout                            thrpt    5    44514,117 ±  24486,247  ops/s
+MvelNoCompressedOops.simple_template        thrpt    5   702333,531 ± 369961,802  ops/s
+MvelNoCompressedOops.with_layout            thrpt    5    27834,686 ±  20279,069  ops/s
+Thymeleaf.simple_template                   thrpt    5    23391,718 ±  60957,094  ops/s
+Thymeleaf.with_layout                       thrpt    5    68794,372 ± 139729,435  ops/s
+ThymeleafNoCompressedOops.simple_template   thrpt    5    52325,587 ±  31941,937  ops/s
+ThymeleafNoCompressedOops.with_layout       thrpt    5    84186,575 ±  63037,661  ops/s

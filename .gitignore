@@ -4,4 +4,3 @@ build/
 .vertx/
 gradle/
 gradlew
-jmh-results.txt

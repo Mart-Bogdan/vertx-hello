@@ -21,8 +21,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Fork(value = 1, jvmArgs = "-server", warmups = 0)
-@Warmup(iterations = 1)
-@Measurement(iterations = 5)
+@Warmup(iterations = 10)
+@Measurement(iterations = 50)
 public class BaseConfig {
     private TemplateEngine engine;
     private RoutingContext routingContext;
